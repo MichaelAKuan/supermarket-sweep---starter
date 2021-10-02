@@ -2,6 +2,14 @@ namespace SpriteKind {
     export const Grocery = SpriteKind.create()
     export const CartItem = SpriteKind.create()
 }
+function createProduct (productImg: Image, cost: number, weight: number, name: string) {
+    p = sprites.create(productImg, SpriteKind.Grocery)
+    sprites.setDataNumber(p, "cost", cost)
+    sprites.setDataNumber(p, "weight", weight)
+    sprites.setDataString(p, "name", name)
+    tiles.placeOnRandomTile(p, assets.tile`tile1`)
+}
+let p: Sprite = null
 let groceryImages = [
 img`
     . . . 2 2 2 . . . . . . . . . . 
@@ -201,30 +209,53 @@ let groceryCosts = [
 ]
 scene.setBackgroundColor(9)
 tiles.setTilemap(tilemap`level`)
-let wallmartboy =  sprites.create(img`
+let wallmartboy = sprites.create(img`
     ..85888......................
     ..5858d......................
-    .585dd8......................
+    .585dd9......................
     .58dddf......................
     .85dddd......................
     55.88........................
-    8.88ddd588888888888..........
+    8.88ddd589889889889..........
     ..811....8..8..8..8..........
-    .8888....8889889888..........
+    .8888....9889889889..........
     .8888....8..8..8..8..........
-    .8888....8889889888..........
+    .8888....9889889889..........
     .8888.....8.8..8.88..........
-    .8888......8888888...........
+    .8888......9888989...........
     .d.d.......8.................
     .d..d......5555555...........
     .8..88......f....f...........
-`, SpriteKind.Player)
-
+    `, SpriteKind.Player)
 controller.moveSprite(wallmartboy)
 scene.cameraFollowSprite(wallmartboy)
 tiles.placeOnTile(wallmartboy, tiles.getTileLocation(0, 3))
-function createProduct(productImg: Image, cost: number, weight: number,  name: string) {
-    let p = sprites.create(productImg, SpriteKind.Grocery  )
-
-
+createProduct(img`
+    . . b b b b b b b b b b b b . . 
+    . b e 4 4 4 4 4 4 4 4 4 4 e b . 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e e 4 4 4 4 4 4 4 4 4 4 e e b 
+    b e e e e e e e e e e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b b b b b b b 5 5 b b b b b b b 
+    c b b b b b b c c b b b b b b c 
+    c c c c c c b c c b c c c c c c 
+    b e e e e e c b b c e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b c e e e e e e e e e e e e c b 
+    b b b b b b b b b b b b b b b b 
+    . b b . . . . . . . . . . b b . 
+    `, 1, 1, "Hello")
+function createAllProducts() {
+    for (let i = 0; i < 9; i++) {
+        let image = groceryImages[i]
+        let name = groceryNames[i]
+        let cost = groceryCosts[i]
+        let weight = groceryWeights[i]
+        
+       createProduct(image, cost, weight, name) 
+    }
 }
+createAllProducts()

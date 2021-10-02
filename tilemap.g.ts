@@ -26,16 +26,16 @@ namespace myTiles {
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
             case "level":
-            case "level":return tiles.createTilemap(hex`100008000003020202020202020202020204000700010101010101010101010101010009080000000000000000000000000000070800000000000000000000000000000908000000000000000000000000000007080000000000000000000000000000090001010101010101010101010101000700050202020202020202020202060009`, img`
-. 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 
+            case "level":return tiles.createTilemap(hex`100008000a030202020202020202020202040a070001010101010101010101010101000908000000000000000000000000000007080000000000000000000000000000090800000000000000000000000000000708000000000000000000000000000009000101010101010101010101010100070a050202020202020202020202060a09`, img`
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . 2 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . 2 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . 2 
-. 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 
-`, [myTiles.transparency16,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile10], TileScale.Sixteen);
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+`, [myTiles.transparency16,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile10,myTiles.tile9], TileScale.Sixteen);
         }
         return null;
     })
