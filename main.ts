@@ -2,56 +2,73 @@ namespace SpriteKind {
     export const Grocery = SpriteKind.create()
     export const CartItem = SpriteKind.create()
 }
-function addtoCart(grocery: Sprite) {
+function addtoCart (grocery: Sprite) {
     item = sprites.create(grocery.image, SpriteKind.CartItem)
     item.follow(wallmartboy)
     item.x = wallmartboy.x
     item.y = wallmartboy.y
-    let cost = sprites.readDataNumber(grocery, "cost")
+    cost = sprites.readDataNumber(grocery, "cost")
     subtotal += cost
     textSprite.setText("$" + subtotal)
+    weight = sprites.readDataNumber(grocery, "weight")
+    speed += 0 - weight
+    if (speed < 50) {
+        speed = 50
+    }
+    controller.moveSprite(wallmartboy, speed, speed)
 }
-function createTextSprite() {
+function createTextSprite () {
     textSprite = textsprite.create("$0")
     textSprite.setPosition(6, 6)
     textSprite.setFlag(SpriteFlag.RelativeToCamera, true)
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`tile10`, function (sprite, location) {
+    let display = " it's  time to pay I hope you can pay Rent and the sale is more expensive then last year I hope your rich "
+    display += "Subtotal: $" +subtotal
+    game.showLongText(display, DialogLayout.Center)
+    info.setScore(subtotal)
+    game.over(true)
+})
 sprites.onOverlap(SpriteKind.Grocery, SpriteKind.Player, function (s, otherSprite) {
     if (controller.A.isPressed()) {
         addtoCart(s)
         pause(100)
     }
 })
-function createProduct(productImg: Image, cost: number, weight: number, name: string) {
+function createProduct (productImg: Image, cost: number, weight: number, name: string) {
     p = sprites.create(productImg, SpriteKind.Grocery)
     sprites.setDataNumber(p, "cost", cost)
     sprites.setDataNumber(p, "weight", weight)
     sprites.setDataString(p, "name", name)
     tiles.placeOnRandomTile(p, assets.tile`tile1`)
 }
-function createAllProducts() {
+function createAllProducts () {
     for (let i = 0; i <= groceryImages.length - 1; i++) {
         image2 = groceryImages[i]
         name = groceryNames[i]
-        cost = groceryCosts[i]
-        weight = groceryWeights[i]
-        createProduct(image2, cost, weight, name)
+        cost2 = groceryCosts[i]
+        weight2 = groceryWeights[i]
+        createProduct(image2, cost2, weight2, name)
     }
 }
-let weight = 0
-let cost = 0
+let weight2 = 0
+let cost2 = 0
 let name = ""
 let image2: Image = null
 let p: Sprite = null
+let weight = 0
 let textSprite: TextSprite = null
+let subtotal = 0
+let cost = 0
 let item: Sprite = null
+let speed = 0
 let wallmartboy: Sprite = null
 let groceryCosts: number[] = []
 let groceryWeights: number[] = []
 let groceryNames: string[] = []
 let groceryImages: Image[] = []
 groceryImages = [
-    img`
+img`
     . . . 2 2 2 . . . . . . . . . . 
     . . . c c c 6 6 8 8 . . . . . . 
     . . 6 1 1 1 1 1 9 6 8 . . . . . 
@@ -69,7 +86,7 @@ groceryImages = [
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `,
-    img`
+img`
     . . . . . . . 6 6 6 . . . . . . 
     . . . . . . . c b c . . . . . . 
     . . . . . c c c b c c c . . . . 
@@ -87,7 +104,7 @@ groceryImages = [
     . . . . c b b b b b b b c . . . 
     . . . . . c c c c c c c . . . . 
     `,
-    img`
+img`
     . c c c c c c c c c c c c c . . 
     c b b b b b b b b b b b b b c . 
     c b b b b b b b b b b b b b c . 
@@ -105,7 +122,7 @@ groceryImages = [
     . c d 1 1 1 2 2 2 1 1 1 d c . . 
     . . c c c c c c c c c c c . . . 
     `,
-    img`
+img`
     . . . c c c c . . . . . . . . . 
     . . c e e e e c c c . . . . . . 
     . c e e e e e e e e c . . . . . 
@@ -123,7 +140,7 @@ groceryImages = [
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `,
-    img`
+img`
     . . . . . . . . . . . . . . . . 
     . . 6 6 9 9 9 9 . . . . . . . . 
     . 6 9 9 1 1 1 1 9 . . . . . . . 
@@ -141,7 +158,7 @@ groceryImages = [
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `,
-    img`
+img`
     . . . . . . . . . . . . . . . . 
     . . . . c c c c c c c . . . . . 
     . . . c d d d d d d d c . . . . 
@@ -159,7 +176,7 @@ groceryImages = [
     . . . d 1 1 1 1 1 1 1 d . . . . 
     . . . . d d d d d d d . . . . . 
     `,
-    img`
+img`
     . . c c c c c c c c c c . . . . 
     . c d d d d d d d c b b c . . . 
     c d d d d d d d c b d b b c . . 
@@ -177,7 +194,7 @@ groceryImages = [
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `,
-    img`
+img`
     . . . . . . . . . . . . . . . . 
     . . . b 1 1 1 1 1 1 1 1 1 . . . 
     . . b 1 1 1 1 1 1 1 1 1 1 1 . . 
@@ -195,7 +212,7 @@ groceryImages = [
     . . b 1 1 1 1 1 1 1 1 1 1 1 . . 
     . . . b b b b b b b b b b . . . 
     `,
-    img`
+img`
     . . . . . . . 6 . . . . . . . . 
     . . . . 6 6 6 6 6 6 6 . . . . . 
     . . 6 6 6 6 7 6 7 6 6 6 6 . . . 
@@ -213,7 +230,7 @@ groceryImages = [
     . . 6 6 6 6 7 6 7 6 6 6 6 . . . 
     . . . . 6 6 6 6 6 6 6 . . . . . 
     `,
-    img`
+img`
     . . . . . . . . . . . . . . . . 
     . . . . . d d d d d d d . . . . 
     . . . . . d f f d d f f . . . . 
@@ -231,7 +248,7 @@ groceryImages = [
     . . . . . . . . f . . . e . . . 
     . . . . . . . f . f . . . . . . 
     `,
-    img`
+img`
     . . . f . f . . f . f . f . . . 
     . . . f f f f f f f f f f . . . 
     . . . f f f f e e f f f f . . . 
@@ -251,43 +268,43 @@ groceryImages = [
     `
 ]
 groceryNames = [
-    "Milk",
-    "Grape Soda",
-    "Oatmeal",
-    "Turkey",
-    "Fancy glass",
-    "Chicken soup",
-    "Sardines",
-    "Flour",
-    "Watermelon",
-    "noch",
-    "Katie"
+"Milk",
+"Grape Soda",
+"Oatmeal",
+"Turkey",
+"Fancy glass",
+"Chicken soup",
+"Sardines",
+"Flour",
+"Watermelon",
+"noch",
+"Katie"
 ]
 groceryWeights = [
-    8,
-    2,
-    1,
-    12,
-    0.5,
-    0.5,
-    0.5,
-    5,
-    10,
-    7,
-    0.78
+8,
+2,
+1,
+12,
+0.5,
+0.5,
+0.5,
+5,
+10,
+7,
+0.78
 ]
 groceryCosts = [
-    2,
-    3,
-    4,
-    20,
-    10,
-    2,
-    1,
-    5,
-    3,
-    10,
-    18
+2,
+3,
+4,
+20,
+10,
+2,
+1,
+5,
+3,
+10,
+18
 ]
 scene.setBackgroundColor(13)
 tiles.setTilemap(tilemap`level`)
@@ -310,10 +327,11 @@ wallmartboy = sprites.create(img`
     .d..d......55f5f55............
     .8..88......f....f............
     `, SpriteKind.Player)
-controller.moveSprite(wallmartboy)
+speed = 100
+controller.moveSprite(wallmartboy, speed, speed)
 scene.cameraFollowSprite(wallmartboy)
 tiles.placeOnTile(wallmartboy, tiles.getTileLocation(0, 3))
-wallmartboy.startEffect(effects.coolRadial)
+wallmartboy.startEffect(effects.halo)
 createProduct(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
@@ -334,4 +352,8 @@ createProduct(img`
     `, 1, 1, "Hello")
 createAllProducts()
 createTextSprite()
-let subtotal = 0
+forever(function () {
+    effects.blizzard.startScreenEffect()
+    scene.cameraShake(8, 500)
+    effects.starField.startScreenEffect()
+})
